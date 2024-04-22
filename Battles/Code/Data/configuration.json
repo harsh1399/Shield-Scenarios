@@ -1,0 +1,42 @@
+{
+	"environment": {
+		"defenses": {
+			"defense1": {
+				"structure": "mortar",
+				"position": "center"
+			},
+			"defense2": {
+				"structure": "mortar",
+				"position": "center-right"
+			},
+			"defense3": {
+				"structure": "tower",
+				"position": "top-right"
+			}
+		}
+	},
+	"agents": {
+		"shooters": {
+			"noShooters": 10
+		}
+	},
+	"deployment": {
+		"deployments": {
+			"troop1": {
+				"troop": "shooters",
+				"DeployedNumbers": 5,
+				"DeploymentPosition": "top-right"
+			},
+			"troop2": {
+				"troop": "shooters",
+				"DeployedNumbers": 5,
+				"DeploymentPosition": "bottom-right"
+			}
+		}
+	},
+	"behavior": {
+		"shooters": "cannon",
+		"tanks": "mortar",
+		"helicopters": "tower"
+	}
+}
