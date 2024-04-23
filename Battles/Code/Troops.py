@@ -245,47 +245,35 @@ class Shooter:
     def move(self, defenceStruct):
         attackingTarget = None
         if len(defenceStruct):
-            nearestPos = 0
-            lowestDist = float("inf")
             lowestDist = float("inf")
             nearestImpTargetDist = float("inf")
-            lowestSecondImpTargetDist = float("inf")
             ImpTarget = self.behavior["ImpTarget"]
-            nearestImpTarget = None
-            nearestSecondTarget = None
+            impTargetPresent = False
             for struct in defenceStruct:
                 if struct.type.lower() == ImpTarget:
                     dist = (self.x - struct.x) ** 2 + (self.y - struct.y) ** 2
                     # if lowestFirstImpTargetDist > dist:
                         # lowestFirstImpTargetDist = dist
+                    impTargetPresent = True
                     if nearestImpTargetDist > dist:
                         nearestImpTargetDist = dist
                         self.nearestPos = [struct.x, struct.y]
                         nearestImpTarget = struct
                         attackingTarget = struct
-            if self.nearestPos is None:
+            if not impTargetPresent:
                 for struct in defenceStruct:
                     dist = (self.x - struct.x) ** 2 + (self.y - struct.y) ** 2
                     if lowestDist > dist:
                         self.nearestPos = [struct.x, struct.y]
                         lowestDist = dist
                         attackingTarget = struct
-            # if nearestFirstTarget is not None and lowestFirstImpTargetDist < lowestSecondImpTargetDist + 1000:
-            #     lowestDist = lowestFirstImpTargetDist + 2000
-            #     self.nearestPos = [nearestFirstTarget.x, nearestFirstTarget.y]
-            #     attackingTarget = nearestFirstTarget
-            #     # print("attacking first imp target:",nearestFirstTarget.type)
-            # elif nearestSecondTarget is not None:
-            #     lowestDist = lowestSecondImpTargetDist + 1500
-            #     self.nearestPos = [nearestSecondTarget.x, nearestSecondTarget.y]
-            #     # print("attacking second imp target:", nearestSecondTarget.type)
-            #     attackingTarget = nearestSecondTarget
-            # for struct in defenceStruct:
-            #     dist = (self.x - struct.x)**2 + (self.y - struct.y)**2
-            #     if lowestDist > dist:
-            #         self.nearestPos = [struct.x, struct.y]
-            #         lowestDist = dist
-            #         attackingTarget = struct
+            # if self.nearestPos is None:
+            #     for struct in defenceStruct:
+            #         dist = (self.x - struct.x) ** 2 + (self.y - struct.y) ** 2
+            #         if lowestDist > dist:
+            #             self.nearestPos = [struct.x, struct.y]
+            #             lowestDist = dist
+            #             attackingTarget = struct
         else:
             self.nearestPos = pygame.mouse.get_pos()
         # print("shooters attacking:",attackingTarget.type)
@@ -499,63 +487,32 @@ class Tank:
             ImpTarget = self.behavior["ImpTarget"]
             nearestImpTarget = None
             nearestSecondTarget = None
+            impTargetPresent = False
             for struct in defenceStruct:
                 if struct.type.lower() == ImpTarget:
                     dist = (self.x - struct.x) ** 2 + (self.y - struct.y) ** 2
                     # if lowestFirstImpTargetDist > dist:
                     # lowestFirstImpTargetDist = dist
+                    impTargetPresent = True
                     if nearestImpTargetDist > dist:
                         nearestImpTargetDist = dist
                         self.nearestPos = [struct.x, struct.y]
                         nearestImpTarget = struct
                         attackingTarget = struct
-            if self.nearestPos is None:
+            if not impTargetPresent:
                 for struct in defenceStruct:
                     dist = (self.x - struct.x) ** 2 + (self.y - struct.y) ** 2
                     if lowestDist > dist:
                         self.nearestPos = [struct.x, struct.y]
                         lowestDist = dist
                         attackingTarget = struct
-            # nearestPos = 0
-            # lowestDist = float("inf")
-            #
-            # lowestDist = float("inf")
-            # lowestFirstImpTargetDist = float("inf")
-            # lowestSecondImpTargetDist = float("inf")
-            # firstImpTarget = self.behavior["firstImpTarget"]
-            # secondImpTarget = self.behavior["secondImpTarget"]
-            # nearestFirstTarget = None
-            # nearestSecondTarget = None
-            # for struct in defenceStruct:
-            #     if struct.type == firstImpTarget:
+            # if self.nearestPos is None:
+            #     for struct in defenceStruct:
             #         dist = (self.x - struct.x) ** 2 + (self.y - struct.y) ** 2
-            #         if lowestFirstImpTargetDist > dist:
+            #         if lowestDist > dist:
             #             self.nearestPos = [struct.x, struct.y]
-            #             lowestFirstImpTargetDist = dist
-            #             nearestFirstTarget = struct
-            #     elif struct.type == secondImpTarget:
-            #         dist = (self.x - struct.x) ** 2 + (self.y - struct.y) ** 2
-            #         if lowestSecondImpTargetDist > dist:
-            #             self.nearestPos = [struct.x, struct.y]
-            #             lowestSecondImpTargetDist = dist
-            #             nearestSecondTarget = struct
-            # if nearestFirstTarget is not None and lowestFirstImpTargetDist < lowestSecondImpTargetDist + 1000:
-            #     lowestDist = lowestFirstImpTargetDist + 2000
-            #     self.nearestPos = [nearestFirstTarget.x, nearestFirstTarget.y]
-            #     attackingTarget = nearestFirstTarget
-            #     # print("attacking first imp target:",nearestFirstTarget.type)
-            # elif nearestSecondTarget is not None:
-            #     lowestDist = lowestSecondImpTargetDist + 1500
-            #     self.nearestPos = [nearestSecondTarget.x, nearestSecondTarget.y]
-            #     # print("attacking second imp target:", nearestSecondTarget.type)
-            #     attackingTarget = nearestSecondTarget
-            #
-            # for struct in defenceStruct:
-            #     dist = (self.x - struct.x)**2 + (self.y - struct.y)**2
-            #     if lowestDist > dist:
-            #         self.nearestPos = [struct.x, struct.y]
-            #         lowestDist = dist
-            #         attackingTarget = struct
+            #             lowestDist = dist
+            #             attackingTarget = struct
         else:
             self.nearestPos = pygame.mouse.get_pos()
         # print("Tank attacking:",attackingTarget.type)
@@ -868,49 +825,6 @@ class Helicopter:
                         self.nearestPos = [struct.x, struct.y]
                         lowestDist = dist
                         attackingTarget = struct
-            # nearestPos = 0
-            # lowestDist = float("inf")
-            # lowestFirstImpTargetDist = float("inf")
-            # lowestSecondImpTargetDist = float("inf")
-            # firstImpTarget = self.behavior["firstImpTarget"]
-            # secondImpTarget = self.behavior["secondImpTarget"]
-            # nearestFirstTarget = None
-            # nearestSecondTarget = None
-            # for struct in defenceStruct:
-            #     if struct.type == firstImpTarget:
-            #         dist = (self.x - struct.x) ** 2 + (self.y - struct.y) ** 2
-            #         if lowestFirstImpTargetDist > dist:
-            #             self.nearestPos = [struct.x, struct.y]
-            #             lowestFirstImpTargetDist = dist
-            #             nearestFirstTarget = struct
-            #     elif struct.type == secondImpTarget:
-            #         dist = (self.x - struct.x) ** 2 + (self.y - struct.y) ** 2
-            #         if lowestSecondImpTargetDist > dist:
-            #             self.nearestPos = [struct.x, struct.y]
-            #             lowestSecondImpTargetDist = dist
-            #             nearestSecondTarget = struct
-            # if nearestFirstTarget is not None and lowestFirstImpTargetDist < lowestSecondImpTargetDist + 1000:
-            #     lowestDist = lowestFirstImpTargetDist + 2000
-            #     self.nearestPos = [nearestFirstTarget.x, nearestFirstTarget.y]
-            #     attackingTarget = nearestFirstTarget
-            #     # print("attacking first imp target:",nearestFirstTarget.type)
-            # elif nearestSecondTarget is not None:
-            #     lowestDist = lowestSecondImpTargetDist + 1500
-            #     self.nearestPos = [nearestSecondTarget.x, nearestSecondTarget.y]
-            #     # print("attacking second imp target:", nearestSecondTarget.type)
-            #     attackingTarget = nearestSecondTarget
-            # for struct in defenceStruct:
-            #     if struct.type == "HEADQUARTERS" or struct.type == "RESOURCE":
-            #         dist = (self.x - struct.x)**2 + (self.y - struct.y)**2
-            #     else:
-            #         dist = (self.x - struct.xOld)**2 + (self.y - struct.yOld)**2
-            #     if lowestDist > dist:
-            #         if struct.type == "HEADQUARTERS" or struct.type == "RESOURCE":
-            #             self.nearestPos = [struct.x, struct.y]
-            #         else:
-            #             self.nearestPos = [struct.xOld, struct.yOld]
-            #         lowestDist = dist
-            #         attackingTarget = struct
         else:
             self.nearestPos = pygame.mouse.get_pos()
         # print("helicopter attacking:",attackingTarget.type)

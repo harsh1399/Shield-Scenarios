@@ -768,8 +768,8 @@ class Maps:
             inventory[1].updateText("TANK" + ": " + str(maxTank - noTank), (0, 0))
             inventory[2].updateText("HELICOPTER" + ": " + str(maxHeli - noHeli), (0, 0))
 
-            if count < len(troop_position):
-                pyautogui.click()
+            # if count < len(troop_position):
+            #     pyautogui.click()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     close()
@@ -778,7 +778,8 @@ class Maps:
                         close()
                     if event.key == pygame.K_ESCAPE or event.key == pygame.K_SPACE or pygame.key == pygame.K_p:
                         pause()
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                # if event.type == pygame.MOUSEBUTTONDOWN:
+                elif count < len(troop_position):
                     troop = troop_position[count]
                     count += 1
                     # if troop[0] == "shooters":
@@ -1098,12 +1099,14 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode((width, height))
     initMaps(screen, (width, height), 25, 100)
     newMap = Maps()
+
     mapFinalized = newMap.showMap([0, "custom"])
     close_pygame()
+
     # shooters_behavior = get_behavior_from_json("shooters")
     # tanks_behavior = get_behavior_from_json("tanks")
     # helicopters_behavior = get_behavior_from_json("helicopters")
-    # # #
+    # # # #
     # positions = troops_positions()
     # newMap.openMap([0, "custom",shooters_behavior,tanks_behavior,helicopters_behavior,positions])
     # #newMap.createMap()

@@ -116,7 +116,7 @@ def generate_response(prompt_input):
     #     human_msg = prompt_input
     # print(human_msg)
     response = requests.post(
-        "https://cc73-155-98-12-76.ngrok-free.app/configure_json/invoke",
+        "https://b422-155-98-12-76.ngrok-free.app/configure_json/invoke",
         json={'input': {
             "human_input":  f'{prompt_input}'}}
     )
@@ -155,9 +155,10 @@ if st.session_state.messages[-1]["role"] != "assistant":
             # for item in response:
             #     full_response+=item
             #     placeholder.markdown(full_response)
-            placeholder.markdown(st.json(response))
+            # print(st.json(response).text)
+            placeholder.markdown(json_config)
 
-    message= {"role":"assistant", "content":original_response}
+    message= {"role":"assistant", "content":json_config}
     st.session_state.messages.append(message)
 
 
